@@ -35,8 +35,8 @@ class DestroyPreviousUserSession
 
         $this->session->getHandler()->destroy($previousSessionId);
 
-        if ($destoryEventClass = Config::get('single-session.destroy_event')) {
-            Event::dispatch(new $destoryEventClass($event->user, $previousSessionId));
+        if ($destroyEventClass = Config::get('single-session.destroy_event')) {
+            Event::dispatch(new $destroyEventClass($event->user, $previousSessionId));
         }
     }
 }
