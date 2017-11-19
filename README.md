@@ -6,7 +6,9 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/pascalbaljetmedia/laravel-single-session.svg?style=flat-square)](https://scrutinizer-ci.com/g/pascalbaljetmedia/laravel-single-session)
 [![Total Downloads](https://img.shields.io/packagist/dt/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 
-## Features
+## Requirements
+* Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
+* Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
 
 ## Installation
 
@@ -24,7 +26,7 @@ php artisan vendor:publish --provider="Pbmedia\SingleSession\SingleSessionServic
 
 ## Usage
 
-...
+
 
 ## Changelog
 
