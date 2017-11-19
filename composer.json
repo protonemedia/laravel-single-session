@@ -1,0 +1,49 @@
+{
+    "name": "pbmedia/laravel-single-session",
+    "description": "Prevent a User from being logged in more than once",
+    "keywords": [
+        "pascalbaljetmedia",
+        "laravel-single-session"
+    ],
+    "homepage": "https://github.com/pascalbaljetmedia/laravel-single-session",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pascal Baljet",
+            "email": "pascal@pascalbaljetmedia.com",
+            "homepage": "https://pascalbaljetmedia.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "orchestra/testbench": "^3.5",
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pbmedia\\SingleSession\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pbmedia\\SingleSession\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pbmedia\\SingleSession\\LaravelServiceProvider"
+            ]
+        }
+    }
+}
