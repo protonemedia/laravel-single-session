@@ -39,9 +39,15 @@ class BindSessionToFreshApiToken
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        return $next($request)->withCookie($this->makeCookie(
-            $request->user($guard)
-        ));
+        $response = $next($request);
+
+        if ($request->user($this->guard)) {
+            $response->withCookie($this->makeCookie(
+                $request->user($guard)
+            ));
+        }
+
+        return $response;
     }
 
     /**
