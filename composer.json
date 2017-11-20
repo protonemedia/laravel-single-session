@@ -45,7 +45,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Pbmedia\\SingleSession\\LaravelServiceProvider"
+                "Pbmedia\\SingleSession\\SingleSessionServiceProvider"
             ]
         }
     }

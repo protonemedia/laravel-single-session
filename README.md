@@ -6,6 +6,8 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/pascalbaljetmedia/laravel-single-session.svg?style=flat-square)](https://scrutinizer-ci.com/g/pascalbaljetmedia/laravel-single-session)
 [![Total Downloads](https://img.shields.io/packagist/dt/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 
+This package prevents a User from being logged in more than once. It destroys the previous session when User logs in.
+
 ## Requirements
 * Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
 * Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
@@ -18,15 +20,23 @@ You can install the package via composer:
 composer require pbmedia/laravel-single-session
 ```
 
-Publish the database migration and config file using the artisan CLI tool:
+Publish the database migration and config file using the Artisan CLI tool.
 
 ``` bash
 php artisan vendor:publish --provider="Pbmedia\SingleSession\SingleSessionServiceProvider"
 ```
 
+The database migrations adds a ```session_id``` field to the ```users``` table. Run the migration to get started!
+
+``` bash
+php artisan migrate
+```
+
 ## Usage
 
+Since Laravel 5.5 has support for Package Discovery, you don't have to add the Service Provider to the ```app.php``` config file.
 
+It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires a ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
 
 ## Changelog
 
