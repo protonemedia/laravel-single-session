@@ -30,4 +30,22 @@ class ClearUserSessionIdTest extends TestCase
         $this->assertEquals(null, strlen($user->session_id));
         $this->assertTrue($user->saved());
     }
+
+    /** @test */
+    public function it_can_dispatch_an_event_after_clearing_the_session_id()
+    {
+        $this->app['config']->set('single-session.destroy_event', FakeDestroyEvent::class);
+
+        $user = new FakeUser;
+
+        $user->session_id = Str::random(40);
+
+        $this->assertFalse(FakeDestroyEvent::$created);
+
+        Event::fire(
+            new Login($user, false)
+        );
+
+        $this->assertTrue(FakeDestroyEvent::$created);
+    }
 }

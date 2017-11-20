@@ -4,6 +4,8 @@ namespace Pbmedia\SingleSession\Listeners;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 
 class ClearUserSessionId
 {
@@ -29,7 +31,13 @@ class ClearUserSessionId
     {
         $user = $event->user->fresh();
 
+        $previousSessionId = $user->session_id;
+
         $user->session_id = null;
         $user->save();
+
+        if ($previousSessionId && $destroyEventClass = Config::get('single-session.destroy_event')) {
+            Event::dispatch(new $destroyEventClass($event->user, $previousSessionId));
+        }
     }
 }
