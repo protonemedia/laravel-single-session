@@ -34,9 +34,41 @@ php artisan migrate
 
 ## Usage
 
-Since Laravel 5.5 has support for Package Discovery, you don't have to add the Service Provider to the ```app.php``` config file.
+Since Laravel 5.5 has support for Package Discovery, you don't have to add the Service Provider to your ```app.php``` config file.
 
-It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires a ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
+It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires an ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
+
+In the ```single-session.php``` config file you can specify a ```destroy_event```. This event will get fired once a previous session gets destroyed. You might want to use this to [broadcast](https://laravel.com/docs/5.5/broadcasting) the event and handle the destroyed session in the user interface. The constructor of the event can take two parameters, The User model and ID of the destroyed session. Here is an example event:
+
+```php
+<?php
+
+namespace Pbmedia\SingleSession\Tests;
+
+class UserSessionWasDestroyed
+{
+    public $user;
+    public $sessionId;
+
+    public function __construct($user, $sessionId)
+    {
+        $this->user = $user;
+        $this->sessionId = $sessionId;
+    }
+
+    public function broadcastOn()
+    {
+        // return new PrivateChannel('channel-name');
+    }
+
+    public function broadcastWith()
+    {
+        return ['user_id' => $this->user->id];
+    }
+}
+```
+
+
 
 ## Changelog
 
