@@ -4,7 +4,14 @@ namespace Pbmedia\SingleSession\Tests;
 
 class FakeUser
 {
-    private $saved = false;
+    public $session_id = null;
+    private $saved     = false;
+
+    public function fresh()
+    {
+        $this->saved = false;
+        return $this;
+    }
 
     public function save()
     {

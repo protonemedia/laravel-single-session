@@ -2,6 +2,7 @@
 
 namespace Pbmedia\SingleSession\Listeners;
 
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Session\Session;
 
@@ -25,9 +26,11 @@ class StoreUserSessionId
      * @param  IlluminateAuthEventsLogin  $event
      * @return void
      */
-    public function handle(Login $event)
+    public function handle(Authenticated $event)
     {
-        $event->user->session_id = $this->session->getId();
-        $event->user->save();
+        if (!$event->user->session_id) {
+            $event->user->session_id = $this->session->getId();
+            $event->user->save();
+        }
     }
 }

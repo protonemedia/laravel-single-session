@@ -2,12 +2,12 @@
 
 namespace Pbmedia\SingleSession\Tests;
 
-use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Pbmedia\SingleSession\SingleSessionServiceProvider;
 
-class StoreUserSessionIdTest extends TestCase
+class ClearUserSessionIdTest extends TestCase
 {
     protected function getPackageProviders($app)
     {
@@ -17,16 +17,17 @@ class StoreUserSessionIdTest extends TestCase
     }
 
     /** @test */
-    public function it_stores_the_session_id_on_the_authenticated_user()
+    public function it_clears_the_session_id_when_a_user_logs_in()
     {
         $user = new FakeUser;
 
+        $user->session_id = Str::random(40);
+
         Event::fire(
-            new Authenticated($user, false)
+            new Login($user, false)
         );
 
-        $this->assertEquals(40, strlen($user->session_id));
-        $this->assertEquals($user->session_id, Session::getId());
+        $this->assertEquals(null, strlen($user->session_id));
         $this->assertTrue($user->saved());
     }
 }

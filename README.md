@@ -6,9 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/pascalbaljetmedia/laravel-single-session.svg?style=flat-square)](https://scrutinizer-ci.com/g/pascalbaljetmedia/laravel-single-session)
 [![Total Downloads](https://img.shields.io/packagist/dt/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 
-This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user.
-
-It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires an ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
+This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user. It assumes you use Laravel's [Authentication](https://laravel.com/docs/5.5/authentication) features.
 
 ## Requirements
 * Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
@@ -34,6 +32,8 @@ The database migration adds a ```session_id``` field to the ```users``` table. R
 ``` bash
 php artisan migrate
 ```
+
+Now add the ```\Pbmedia\SingleSession\Middleware\VerifyUserSession``` middleware to the routes you want to protect.
 
 ## Usage
 

@@ -28,6 +28,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         include_once __DIR__ . '/../database/migrations/add_session_id_to_users_table.php.stub';
 
         (new \CreateUsersTable)->up();
+        (new \AddSessionIdToUsersTable)->up();
         User::unguard();
 
         $this->app['config']->set('auth.providers.users.model', User::class);
@@ -35,7 +36,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function setUpPassport()
     {
-        $this->app['config']->set('auth.providers.users.model', User::class);
         $migrationsDirectory = __DIR__ . '/../vendor/laravel/passport/database/migrations/';
 
         foreach (scandir($migrationsDirectory) as $migration) {
