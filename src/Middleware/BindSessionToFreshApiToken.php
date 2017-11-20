@@ -5,10 +5,9 @@ namespace Pbmedia\SingleSession\Middleware;
 use Closure;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
-use Laravel\Passport\Passport;
 use Pbmedia\SingleSession\Middleware\InteractsWithApiToken;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -40,18 +39,9 @@ class BindSessionToFreshApiToken
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $response = $next($request);
-
-        if (!$this->getCookie($response, Passport::cookie()) ||
-            $this->getCookie($response, static::$cookie)) {
-            return $response;
-        }
-
-        $response->withCookie($this->makeCookie(
+        return $next($request)->withCookie($this->makeCookie(
             $request->user($guard)
         ));
-
-        return $response;
     }
 
     /**
@@ -67,7 +57,7 @@ class BindSessionToFreshApiToken
         $expiration = Carbon::now()->addMinutes($config['lifetime']);
 
         $token = JWT::encode([
-            'sub'       => $userId->getKey(),
+            'sub'       => $user->getKey(),
             'sessionId' => $this->session->getId(),
             'expiry'    => $expiration->getTimestamp(),
         ], $this->encrypter->getKey());

@@ -48,7 +48,7 @@ class VerifyUserSessionInApiToken
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    protected function decodeJwtTokenCookie($request)
+    public function decodeJwtTokenCookie($request)
     {
         return (array) JWT::decode(
             $this->encrypter->decrypt($request->cookie(static::$cookie)),
