@@ -21,7 +21,7 @@ class AddSessionIdToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('session_id')->nullable();
+            $table->dropColumn('session_id');
         });
     }
 }
