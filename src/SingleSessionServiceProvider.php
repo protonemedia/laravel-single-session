@@ -3,10 +3,12 @@
 namespace Pbmedia\SingleSession;
 
 use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Pbmedia\SingleSession\Listeners\DestroyPreviousUserSession;
-use Pbmedia\SingleSession\Listeners\StoreUserSessionId;
+use Laravel\Passport\Events\AccessTokenCreated;
+use Laravel\Passport\Events\RefreshTokenCreated;
+use Pbmedia\SingleSession\Listeners;
 
 class SingleSessionServiceProvider extends ServiceProvider
 {
@@ -26,8 +28,13 @@ class SingleSessionServiceProvider extends ServiceProvider
             ], 'migrations');
         }
 
-        foreach ([DestroyPreviousUserSession::class, StoreUserSessionId::class] as $listener) {
+        foreach ([Listeners\DestroyPreviousUserSession::class, Listeners\StoreUserSessionId::class] as $listener) {
             Event::listen(Login::class, $listener);
+        }
+
+        if (Config::get('single-session.prune_and_revoke_tokens')) {
+            Event::listen(AccessTokenCreated::class, Listeners\RevokeOldTokens::class);
+            Event::listen(RefreshTokenCreated::class, Listeners\PruneOldTokens::class);
         }
     }
 
