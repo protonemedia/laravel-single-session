@@ -8,6 +8,8 @@
 
 This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user.
 
+It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires an ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
+
 ## Requirements
 * Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
 * Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
@@ -36,8 +38,6 @@ php artisan migrate
 ## Usage
 
 Since Laravel 5.5 has support for Package Discovery, you don't have to add the Service Provider to your ```app.php``` config file.
-
-It assumes you use Laravel's [Authentication Quickstart](https://laravel.com/docs/5.5/authentication#authentication-quickstart) which fires an ```Illuminate\Auth\Events\Login``` event once a User is successfully logged in. If you use another authentication mechanism, make sure this event gets fired at the right moment.
 
 In the ```single-session.php``` config file you can specify a ```destroy_event```. This event will get fired once a previous session gets destroyed. You might want to use this to [broadcast](https://laravel.com/docs/5.5/broadcasting) the event and handle the destroyed session in the user interface. The constructor of the event can take two parameters, The User model and ID of the destroyed session. Here is an example event:
 
