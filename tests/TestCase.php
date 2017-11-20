@@ -36,6 +36,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function setUpPassport()
     {
+        $this->app['config']->set('auth.guards.api.driver', 'passport');
+
         $migrationsDirectory = __DIR__ . '/../vendor/laravel/passport/database/migrations/';
 
         foreach (scandir($migrationsDirectory) as $migration) {
