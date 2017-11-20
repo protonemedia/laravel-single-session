@@ -11,6 +11,7 @@ This package prevents a User from being logged in more than once. It destroys th
 ## Requirements
 * Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
 * Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
+* Support for [Laravel Passport](https://laravel.com/docs/5.5/passport)
 
 ## Installation
 
@@ -43,7 +44,7 @@ In the ```single-session.php``` config file you can specify a ```destroy_event``
 ```php
 <?php
 
-namespace Pbmedia\SingleSession\Tests;
+namespace App\Events;
 
 class UserSessionWasDestroyed
 {
@@ -68,7 +69,7 @@ class UserSessionWasDestroyed
 }
 ```
 
-
+When using Laravel Passport it automatically prunes and revokes tokens from the database as well. This can be disabled by setting the ```prune_and_revoke_tokens``` option to ```false``` in the config file.
 
 ## Changelog
 
