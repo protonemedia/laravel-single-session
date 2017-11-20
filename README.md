@@ -71,6 +71,18 @@ class UserSessionWasDestroyed
 
 When using Laravel Passport it automatically prunes and revokes tokens from the database as well. This can be disabled by setting the ```prune_and_revoke_tokens``` option to ```false``` in the config file.
 
+If you're using Laravel Passport's ```CreateFreshApiToken``` middleware, add the ```Pbmedia\SingleSession\Middleware\BindSessionToFreshApiToken``` middleware *before* the ```CreateFreshApiToken``` and add the ```VerifyUserSessionInApiToken``` middleware to the ```auth:api``` group:
+
+```php
+$router->get('/', 'HomeController@show')->middleware([
+    'web', 'auth', BindSessionToFreshApiToken::class, CreateFreshApiToken::class
+]);
+
+$router->get('/api', 'ApiController@index')->middleware([
+    'api', 'auth:api', VerifyUserSessionInApiToken::class
+]);
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
