@@ -8,16 +8,13 @@ use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
-use Pbmedia\SingleSession\Middleware\InteractsWithApiToken;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class BindSessionToFreshApiToken
 {
-    use InteractsWithApiToken;
-
     private $encrypter;
-    private $guard;
     private $session;
+    public static $cookie = 'laravel_token_id';
 
     /**
      * Create the middleware.
@@ -41,7 +38,7 @@ class BindSessionToFreshApiToken
     {
         $response = $next($request);
 
-        if ($request->user($this->guard)) {
+        if ($request->user($guard)) {
             $response->withCookie($this->makeCookie(
                 $request->user($guard)
             ));

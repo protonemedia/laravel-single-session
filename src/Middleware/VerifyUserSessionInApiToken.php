@@ -6,12 +6,9 @@ use Closure;
 use Exception;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\Encrypter;
-use Pbmedia\SingleSession\Middleware\InteractsWithApiToken;
 
 class VerifyUserSessionInApiToken
 {
-    use InteractsWithApiToken;
-
     private $encrypter;
 
     /**
@@ -50,8 +47,10 @@ class VerifyUserSessionInApiToken
      */
     public function decodeJwtTokenCookie($request)
     {
+        $cookie = $request->cookie(BindSessionToFreshApiToken::$cookie);
+
         return (array) JWT::decode(
-            $this->encrypter->decrypt($request->cookie(static::$cookie)),
+            $this->encrypter->decrypt($cookie),
             $this->encrypter->getKey(), ['HS256']
         );
     }
