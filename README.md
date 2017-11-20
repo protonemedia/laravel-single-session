@@ -1,4 +1,4 @@
-# [WIP] Laravel Single Session
+# Laravel Single Session
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -6,12 +6,12 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/pascalbaljetmedia/laravel-single-session.svg?style=flat-square)](https://scrutinizer-ci.com/g/pascalbaljetmedia/laravel-single-session)
 [![Total Downloads](https://img.shields.io/packagist/dt/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 
-This package prevents a User from being logged in more than once. It destroys the previous session when User logs in.
+This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user.
 
 ## Requirements
 * Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
 * Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
-* Support for [Laravel Passport](https://laravel.com/docs/5.5/passport)
+* Support for [Laravel Passport](https://laravel.com/docs/5.5/passport).
 
 ## Installation
 
@@ -27,7 +27,7 @@ Publish the database migration and config file using the Artisan CLI tool.
 php artisan vendor:publish --provider="Pbmedia\SingleSession\SingleSessionServiceProvider"
 ```
 
-The database migrations adds a ```session_id``` field to the ```users``` table. Run the migration to get started!
+The database migration adds a ```session_id``` field to the ```users``` table. Run the migration to get started!
 
 ``` bash
 php artisan migrate
