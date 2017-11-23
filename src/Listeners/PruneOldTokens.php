@@ -8,7 +8,6 @@ use Laravel\Passport\Events\RefreshTokenCreated;
 
 class PruneOldTokens
 {
-
     /**
      * Handle the event.
      *

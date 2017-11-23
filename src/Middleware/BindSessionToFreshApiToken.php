@@ -6,8 +6,11 @@ use Closure;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
+use Laravel\Passport\Passport;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class BindSessionToFreshApiToken
@@ -16,11 +19,6 @@ class BindSessionToFreshApiToken
     private $session;
     public static $cookie = 'laravel_token_id';
 
-    /**
-     * Create the middleware.
-     *
-     * @return void
-     */
     public function __construct(Encrypter $encrypter, Session $session)
     {
         $this->encrypter = $encrypter;
@@ -55,7 +53,7 @@ class BindSessionToFreshApiToken
     {
         $response = $next($request);
 
-        if ($request->user($guard)) {
+        if ($this->shouldReceiveFreshToken($response)) {
             $response->withCookie($this->makeCookie(
                 $request->user($guard)
             ));
@@ -65,12 +63,30 @@ class BindSessionToFreshApiToken
     }
 
     /**
+     * Determine if the given request should receive a fresh token.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
+     * @return bool
+     */
+    protected function shouldReceiveFreshToken($response)
+    {
+        foreach ($response->headers->getCookies() as $cookie) {
+            if ($cookie->getName() === Passport::cookie()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Create a new API token cookie with the Session ID.
      *
      * @param  \Illuminate\Foundation\Auth\User  $user
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    public function makeCookie($user)
+    public function makeCookie(User $user)
     {
         $config = Config::get('session');
 

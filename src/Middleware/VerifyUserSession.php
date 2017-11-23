@@ -11,11 +11,6 @@ class VerifyUserSession
 {
     private $session;
 
-    /**
-     * Create the middleware.
-     *
-     * @return void
-     */
     public function __construct(Session $session)
     {
         $this->session = $session;

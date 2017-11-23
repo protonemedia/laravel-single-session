@@ -10,11 +10,6 @@ class StoreUserSessionId
 {
     private $session;
 
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
     public function __construct(Session $session)
     {
         $this->session = $session;

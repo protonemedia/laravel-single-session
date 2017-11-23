@@ -11,11 +11,6 @@ class ClearUserSessionId
 {
     private $session;
 
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
     public function __construct(Session $session)
     {
         $this->session = $session;

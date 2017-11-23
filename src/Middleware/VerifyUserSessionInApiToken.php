@@ -12,11 +12,6 @@ class VerifyUserSessionInApiToken
 {
     private $encrypter;
 
-    /**
-     * Create the middleware.
-     *
-     * @return void
-     */
     public function __construct(Encrypter $encrypter)
     {
         $this->encrypter = $encrypter;

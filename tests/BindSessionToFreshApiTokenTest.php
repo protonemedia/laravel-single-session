@@ -8,6 +8,7 @@ use Laravel\Passport\PassportServiceProvider;
 use Pbmedia\SingleSession\Middleware\BindSessionToFreshApiToken;
 use Pbmedia\SingleSession\SingleSessionServiceProvider;
 use Pbmedia\SingleSession\Tests\User;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BindSessionToFreshApiTokenTest extends TestCase
 {
@@ -60,5 +61,26 @@ class BindSessionToFreshApiTokenTest extends TestCase
 
         $this->assertEquals($user->id, $decodedValue['sub']);
         $this->assertEquals(session()->getId(), $decodedValue['sessionId']);
+    }
+
+    /** @test */
+    public function it_doesnt_attach_the_cookie_to_binary_file_responses()
+    {
+        $this->app['router']->get('/', function () {
+            return new BinaryFileResponse(__DIR__ . '/../README.md');
+        })->middleware(['web', 'auth', BindSessionToFreshApiToken::class, CreateFreshApiToken::class]);
+
+        $user = User::create([
+            'name'     => 'API User',
+            'email'    => 'api@laravel.com',
+            'password' => bcrypt('secret'),
+        ]);
+
+        $response = $this->actingAs($user)
+            ->call('GET', '/', [], [
+                session()->getName() => encrypt(session()->getId()),
+            ])
+            ->assertStatus(200)
+            ->assertCookieMissing(BindSessionToFreshApiToken::cookie());
     }
 }
