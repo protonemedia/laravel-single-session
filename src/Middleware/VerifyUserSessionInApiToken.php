@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\Encrypter;
+use Laravel\Passport\Passport;
 
 class VerifyUserSessionInApiToken
 {
@@ -30,8 +31,10 @@ class VerifyUserSessionInApiToken
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $passportCookie = $request->cookie(Passport::cookie());
+
         try {
-            if ($request->user()->session_id === $this->decodeJwtTokenCookie($request)['sessionId']) {
+            if (!$passportCookie || $request->user()->session_id === $this->decodeJwtTokenCookie($request)['sessionId']) {
                 return $next($request);
             }
         } catch (Exception $e) {}
