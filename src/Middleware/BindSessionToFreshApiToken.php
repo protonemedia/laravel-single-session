@@ -31,7 +31,7 @@ class BindSessionToFreshApiToken
      * Get or set the name for token cookies.
      *
      * @param  string|null  $cookie
-     * @return string|static
+     * @return string
      */
     public static function cookie($cookie = null)
     {
@@ -41,7 +41,7 @@ class BindSessionToFreshApiToken
 
         static::$cookie = $cookie;
 
-        return new static;
+        return new $cookie;
     }
 
     /**
