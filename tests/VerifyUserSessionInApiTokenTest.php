@@ -53,7 +53,7 @@ class VerifyUserSessionInApiTokenTest extends TestCase
         $sessionCookie  = null;
 
         foreach ($response->headers->getCookies() as $cookie) {
-            if ($cookie->getName() === BindSessionToFreshApiToken::$cookie) {
+            if ($cookie->getName() === BindSessionToFreshApiToken::cookie()) {
                 $sessionCookie = $cookie;
             } else if ($cookie->getName() === Passport::cookie()) {
                 $passportCookie = $cookie;
@@ -62,8 +62,8 @@ class VerifyUserSessionInApiTokenTest extends TestCase
 
         // bind the session
         $this->call('GET', '/api', [], [
-            Passport::cookie()                  => $passportCookie->getValue(),
-            BindSessionToFreshApiToken::$cookie => $sessionCookie->getValue(),
+            Passport::cookie()                   => $passportCookie->getValue(),
+            BindSessionToFreshApiToken::cookie() => $sessionCookie->getValue(),
         ], [], $this->transformHeadersToServerVars([
             'X-CSRF-TOKEN'     => session()->token(),
             'X-Requested-With' => 'XMLHttpRequest',
@@ -95,7 +95,7 @@ class VerifyUserSessionInApiTokenTest extends TestCase
         $sessionCookie  = null;
 
         foreach ($response->headers->getCookies() as $cookie) {
-            if ($cookie->getName() === BindSessionToFreshApiToken::$cookie) {
+            if ($cookie->getName() === BindSessionToFreshApiToken::cookie()) {
                 $sessionCookie = $cookie;
             } else if ($cookie->getName() === Passport::cookie()) {
                 $passportCookie = $cookie;
@@ -106,8 +106,8 @@ class VerifyUserSessionInApiTokenTest extends TestCase
 
         // bind the session
         $this->call('GET', '/api', [], [
-            Passport::cookie()                  => $passportCookie->getValue(),
-            BindSessionToFreshApiToken::$cookie => $sessionCookie->getValue(),
+            Passport::cookie()                   => $passportCookie->getValue(),
+            BindSessionToFreshApiToken::cookie() => $sessionCookie->getValue(),
         ], [], $this->transformHeadersToServerVars([
             'X-CSRF-TOKEN'     => session()->token(),
             'X-Requested-With' => 'XMLHttpRequest',

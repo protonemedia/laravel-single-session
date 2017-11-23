@@ -43,12 +43,12 @@ class BindSessionToFreshApiTokenTest extends TestCase
                 session()->getName() => encrypt(session()->getId()),
             ])
             ->assertStatus(200)
-            ->assertCookie(BindSessionToFreshApiToken::$cookie);
+            ->assertCookie(BindSessionToFreshApiToken::cookie());
 
         $sessionCookie = null;
 
         foreach ($response->headers->getCookies() as $cookie) {
-            if ($cookie->getName() === BindSessionToFreshApiToken::$cookie) {
+            if ($cookie->getName() === BindSessionToFreshApiToken::cookie()) {
                 $sessionCookie = $cookie;
             }
         }

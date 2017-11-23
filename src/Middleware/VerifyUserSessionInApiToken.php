@@ -47,7 +47,7 @@ class VerifyUserSessionInApiToken
      */
     public function decodeJwtTokenCookie($request)
     {
-        $cookie = $request->cookie(BindSessionToFreshApiToken::$cookie);
+        $cookie = $request->cookie(BindSessionToFreshApiToken::cookie());
 
         return (array) JWT::decode(
             $this->encrypter->decrypt($cookie),

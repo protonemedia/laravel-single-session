@@ -28,6 +28,23 @@ class BindSessionToFreshApiToken
     }
 
     /**
+     * Get or set the name for token cookies.
+     *
+     * @param  string|null  $cookie
+     * @return string|static
+     */
+    public static function cookie($cookie = null)
+    {
+        if (is_null($cookie)) {
+            return static::$cookie;
+        }
+
+        static::$cookie = $cookie;
+
+        return new static;
+    }
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -66,7 +83,7 @@ class BindSessionToFreshApiToken
         ], $this->encrypter->getKey());
 
         return new Cookie(
-            static::$cookie,
+            static::cookie(),
             $token,
             $expiration,
             $config['path'],
