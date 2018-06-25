@@ -6,12 +6,12 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/pascalbaljetmedia/laravel-single-session.svg?style=flat-square)](https://scrutinizer-ci.com/g/pascalbaljetmedia/laravel-single-session)
 [![Total Downloads](https://img.shields.io/packagist/dt/pbmedia/laravel-single-session.svg?style=flat-square)](https://packagist.org/packages/pbmedia/laravel-single-session)
 
-This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user. It assumes you use Laravel's [Authentication](https://laravel.com/docs/5.5/authentication) features.
+This package prevents a User from being logged in more than once. It destroys the previous session when a User logs in and thereby allowing only one session per user. It assumes you use Laravel's [Authentication](https://laravel.com/docs/5.6/authentication) features.
 
 ## Requirements
-* Laravel 5.5 only, PHP 7.0, 7.1 and 7.2 supported.
-* Support for [Package Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
-* Support for [Laravel Passport](https://laravel.com/docs/5.5/passport).
+* Laravel 5.6 only, 7.1 and 7.2 supported.
+* Support for [Package Discovery](https://laravel.com/docs/5.6/packages#package-discovery).
+* Support for [Laravel Passport](https://laravel.com/docs/5.6/passport).
 
 ## Installation
 
@@ -39,7 +39,7 @@ Now add the ```\Pbmedia\SingleSession\Middleware\VerifyUserSession``` middleware
 
 Since Laravel 5.5 has support for Package Discovery, you don't have to add the Service Provider to your ```app.php``` config file.
 
-In the ```single-session.php``` config file you can specify a ```destroy_event```. This event will get fired once a previous session gets destroyed. You might want to use this to [broadcast](https://laravel.com/docs/5.5/broadcasting) the event and handle the destroyed session in the user interface. The constructor of the event can take two parameters, The User model and ID of the destroyed session. Here is an example event:
+In the ```single-session.php``` config file you can specify a ```destroy_event```. This event will get fired once a previous session gets destroyed. You might want to use this to [broadcast](https://laravel.com/docs/5.6/broadcasting) the event and handle the destroyed session in the user interface. The constructor of the event can take two parameters, The User model and ID of the destroyed session. Here is an example event:
 
 ```php
 <?php
