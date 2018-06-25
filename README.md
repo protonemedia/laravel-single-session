@@ -13,6 +13,10 @@ This package prevents a User from being logged in more than once. It destroys th
 * Support for [Package Discovery](https://laravel.com/docs/5.6/packages#package-discovery).
 * Support for [Laravel Passport](https://laravel.com/docs/5.6/passport).
 
+## Notes
+* Laravel 5.6.14 and later supports [invalidating sessions out-of-the-box](https://laravel.com/docs/5.6/authentication#invalidating-sessions-on-other-devices).
+* If you're still using Laravel 5.5, please use version 1.3.0. 
+
 ## Installation
 
 You can install the package via composer:
