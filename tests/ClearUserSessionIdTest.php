@@ -3,6 +3,7 @@
 namespace Pbmedia\SingleSession\Tests;
 
 use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Pbmedia\SingleSession\SingleSessionServiceProvider;
@@ -24,7 +25,7 @@ class ClearUserSessionIdTest extends TestCase
         $user->session_id = Str::random(40);
 
         Event::fire(
-            new Login($user, false)
+            new Login(Auth::guard(), $user, false)
         );
 
         $this->assertEquals(null, strlen($user->session_id));
@@ -43,7 +44,7 @@ class ClearUserSessionIdTest extends TestCase
         $this->assertFalse(FakeDestroyEvent::$created);
 
         Event::fire(
-            new Login($user, false)
+            new Login(Auth::guard(), $user, false)
         );
 
         $this->assertTrue(FakeDestroyEvent::$created);

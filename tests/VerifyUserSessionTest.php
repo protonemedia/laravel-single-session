@@ -2,6 +2,7 @@
 
 namespace Pbmedia\SingleSession\Tests;
 
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Support\Str;
 use Pbmedia\SingleSession\Middleware\VerifyUserSession;
 use Pbmedia\SingleSession\SingleSessionServiceProvider;
@@ -53,7 +54,10 @@ class VerifyUserSessionTest extends TestCase
 
         $this->actingAs($user)
             ->call('GET', '/', [], [
-                session()->getName() => encrypt(session()->getId()),
+                session()->getName() => encrypt(
+                    session()->getId(),
+                    EncryptCookies::serialized(session()->getName())
+                ),
             ])
             ->assertStatus(200);
     }

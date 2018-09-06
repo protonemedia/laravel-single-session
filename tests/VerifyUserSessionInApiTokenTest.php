@@ -62,8 +62,8 @@ class VerifyUserSessionInApiTokenTest extends TestCase
 
         // bind the session
         $this->call('GET', '/api', [], [
-            Passport::cookie()                   => $passportCookie->getValue(),
-            BindSessionToFreshApiToken::cookie() => $sessionCookie->getValue(),
+            Passport::cookie()                   => decrypt($passportCookie->getValue()),
+            BindSessionToFreshApiToken::cookie() => decrypt($sessionCookie->getValue()),
         ], [], $this->transformHeadersToServerVars([
             'X-CSRF-TOKEN'     => session()->token(),
             'X-Requested-With' => 'XMLHttpRequest',

@@ -4,6 +4,7 @@ namespace Pbmedia\SingleSession\Tests;
 
 use Firebase\JWT\JWT;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
 use Pbmedia\SingleSession\Middleware\BindSessionToFreshApiToken;
 use Pbmedia\SingleSession\SingleSessionServiceProvider;
@@ -55,7 +56,7 @@ class BindSessionToFreshApiTokenTest extends TestCase
         }
 
         $decodedValue = (array) JWT::decode(
-            app('encrypter')->decrypt($sessionCookie->getValue()),
+            app('encrypter')->decrypt($sessionCookie->getValue(), Passport::$unserializesCookies),
             app('encrypter')->getKey(), ['HS256']
         );
 
